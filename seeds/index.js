@@ -39,7 +39,7 @@ const seedDB = async()=>{
               },
             images:[
                 {
-                  url: 'https://res.cloudinary.com/dgu5orpv9/image/upload/v1625387166/TourGuide/bg8lueowdcvpwhdwhlx1.jpg',
+                  url: 'https://res.cloudinary.com/dgu5orpv9/image/upload/v1625435725/TourGuide/yuyeh3bjyv1qjuwfrvrl.jpg',
                   filename: 'TourGuide/bg8lueowdcvpwhdwhlx1'
                 },
                 {
