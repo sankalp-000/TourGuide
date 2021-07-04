@@ -2,7 +2,7 @@
 <div class="row">
     <h1 class="text-center">New Place</h1>
     <div class="col-6 offset-3">
-        <form action="/places" method="POST" novalidate class="validated-form">
+        <form action="/places" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="place[title]" required>
@@ -13,11 +13,12 @@
                 <input class="form-control" type="text" id="location" name="place[location]" required>
                 <div class="valid-feedback"> ok!</div>
             </div>
-            <div class="mb-3">
+            <input type="file" name="image" id="" multiple>
+            <!-- <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
                 <input class="form-control" type="text" id="image" name="place[image]" required>
                 <div class="valid-feedback"> ok!</div>
-            </div>
+            </div> -->
             <div class="mb-3">
                 <label class="form-label" for="price"> Cost</label>
                 <div class="input-group">
