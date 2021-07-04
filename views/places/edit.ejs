@@ -38,10 +38,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <% place.images.forEach(function(img, i) {  %>
+                    <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                    <div class="form-check-inline">
+                        <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                    </div>
+                    <label for="image-<%=i%>">Delete?</label>
+                    <% })%>
+                </div>
+
+                <div class="mb-3">
                     <button class="btn btn-success">update place</button>
                 </div>
 
             </form>
-            <a href="/places">All Places</a>
+            <a href="/places/<%= place._id%>">Back to Place</a>
         </div>
     </div>

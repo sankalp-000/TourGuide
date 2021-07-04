@@ -1,4 +1,8 @@
 const Place = require('../models/place');
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index =async (req, res) => {
     const places = await Place.find({});
@@ -11,7 +15,13 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createPlace = async (req, res, next) => {
     
+    const geoData = await geocoder.forwardGeocode({
+        query:req.body.place.location,
+        limit: 1
+    }).send()
+
     const place = new Place(req.body.place);
+    place.geometry = geoData.body.features[0].geometry;
     place.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     place.author= req.user._id;
     await place.save();
@@ -45,10 +55,18 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updatePlace = async (req, res) => {
     const { id } = req.params;
+    console.log(req.body);
     const place = await Place.findByIdAndUpdate(id, { ...req.body.place });
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     place.images.push (...imgs);
     await place.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await place.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+        console.log(place)
+    }
     req.flash('success', 'Successfully updated the place details!');
     res.redirect(`/places/${place._id}`)
 }

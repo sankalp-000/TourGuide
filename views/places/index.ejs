@@ -13,7 +13,11 @@
         <div class="card" mb-3>
             <div class="row">
                 <div class="col-md-4">
+                    <%if(place.images.length) {%>
                     <img class="img-fluid" alt="" src="<%=place.images[0].url%>">
+                    <% }else {%>
+                        <img src="https://res.cloudinary.com/dgu5orpv9/image/upload/v1625387166/TourGuide/bg8lueowdcvpwhdwhlx1.jpg" alt="" class="img-fluid">
+                        <% } %>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
