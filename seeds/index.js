@@ -31,8 +31,11 @@ const seedDB = async()=>{
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price,
             geometry: {
-               "type" : "Point",
-                "coordinates" : [ -0.12764739999999997, 51.507321899999994 ] 
+               type : "Point",
+               coordinates: [
+                cities[random1000].longitude,
+                cities[random1000].latitude,
+            ]
               },
             images:[
                 {
