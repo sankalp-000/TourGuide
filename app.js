@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,7 +24,10 @@ const userRoutes = require('./routes/users');
 const placeRoutes = require('./routes/places');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/tour-place' , {
+const MongoDBStore = require('connect-mongo');
+
+const dbUrl= process.env.DB_URL || 'mongodb://localhost:27017/tour-place';
+mongoose.connect(dbUrl , {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -49,10 +53,22 @@ app.use(mongoSanitize({
     replaceWith: '_'
 }))
 
+const secret =process.env.SECRET || 'thisshouldbeabettersecret!';
+
+const store= MongoDBStore.create({
+    mongoUrl:dbUrl,
+    secret,
+    touchAfter:24 * 60 * 60
+});
+
+store.on("error" , function(e){
+    console.log("session store error" , e)
+})
 
 const sessionConfig = {
-    name:'blah',
-    secret: 'thisshouldbeabettersecret!',
+    store,
+    name:'session',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
